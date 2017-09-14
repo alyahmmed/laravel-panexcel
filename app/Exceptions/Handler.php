@@ -44,6 +44,21 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        $error = 'Server error';
+        $code = 500;
+
+        $kalss = explode('\\', get_class($exception));
+        switch (end($kalss)) {
+            case 'NotFoundHttpException':
+                $error = 'Resource not found';
+                $code = 404;
+                break;
+        }
+
+        // This will replace our 404 response with
+        // a JSON response.
+        return response()->json(['error' => $error], $code);
+
         return parent::render($request, $exception);
     }
 

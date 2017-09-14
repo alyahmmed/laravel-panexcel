@@ -25,10 +25,10 @@ Route::get('_db_migrate', function()
     if( ( isset($_SERVER['PHP_AUTH_USER'] ) &&
         ( $_SERVER['PHP_AUTH_USER'] == $username ) ) AND
         ( isset($_SERVER['PHP_AUTH_PW'] ) &&
-            ( $_SERVER['PHP_AUTH_PW'] == $password )) )
+            ( $_SERVER['PHP_AUTH_PW'] == $password ) ) )
     {
         echo '<pre>';
-        \Artisan::call('migrate', ["--force"=> true]);
+        \Artisan::call('migrate', ['--force' => true]);
     } else {
         header('WWW-Authenticate: Basic realm="Unauthorized"');
         header('HTTP/1.0 401 Unauthorized');
