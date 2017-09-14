@@ -1,5 +1,37 @@
 <?php
 
+/*
+    Custom database configuration to read from ENV variable
+     DATABASE_URL, for example: mysql://root@localhost:3306/db_name
+ */
+$db_vars = parse_url(getenv('DATABASE_URL'));
+$db_driver = isset($db_vars['scheme']) &&
+    $db_vars['scheme'] == 'postgres' ? 'pgsql' : 'mysql';
+
+$db_config = [
+    'host' => isset($db_vars['host']) ? $db_vars['host'] : '',
+    'port' => isset($db_vars['port']) ? $db_vars['port'] : '',
+    'database' => isset($db_vars['path']) ?
+        ltrim($db_vars['path'],'/') : '',
+    'username' => isset($db_vars['user']) ? $db_vars['user'] : '',
+    'password' => isset($db_vars['pass']) ? $db_vars['pass'] : '',
+];
+
+$mysql_config = $pgsql_config = $db_config;
+
+$mysql_config['driver'] = 'mysql';
+$mysql_config['charset'] = 'utf8mb4';
+$mysql_config['collation'] = 'utf8mb4_unicode_ci';
+$mysql_config['prefix'] = '';
+$mysql_config['strict'] = true;
+$mysql_config['engine'] = null;
+
+$pgsql_config['driver'] = 'pgsql';
+$pgsql_config['charset'] = 'utf8';
+$pgsql_config['prefix'] = '';
+$pgsql_config['schema'] = 'public';
+$pgsql_config['sslmode'] = 'prefer';
+
 return [
 
     /*
@@ -13,7 +45,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => $db_driver,
 
     /*
     |--------------------------------------------------------------------------
@@ -39,32 +71,9 @@ return [
             'prefix' => '',
         ],
 
-        'mysql' => [
-            'driver' => 'mysql',
-            'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
-            'charset' => 'utf8mb4',
-            'collation' => 'utf8mb4_unicode_ci',
-            'prefix' => '',
-            'strict' => true,
-            'engine' => null,
-        ],
+        'mysql' => $mysql_config,
 
-        'pgsql' => [
-            'driver' => 'pgsql',
-            'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '5432'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
-            'charset' => 'utf8',
-            'prefix' => '',
-            'schema' => 'public',
-            'sslmode' => 'prefer',
-        ],
+        'pgsql' => $pgsql_config,
 
     ],
 
