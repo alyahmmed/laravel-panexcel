@@ -11,14 +11,17 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/', function () {
+        return view('welcome');
+    });
+
+    Route::get('task1', function () {
+        return view('task1');
+    });
 });
 
-Route::get('task1', function () {
-    return view('task1');
-});
-
+Auth::routes();
 
 // DB migration route
 Route::get('_db_migrate', function()

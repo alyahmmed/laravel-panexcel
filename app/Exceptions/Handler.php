@@ -53,11 +53,17 @@ class Handler extends ExceptionHandler
                 $error = 'Resource not found';
                 $code = 404;
                 break;
+            case 'AuthenticationException':
+                $error = 'Please login first';
+                $code = 500;
+                break;
         }
 
         // This will replace our 404 response with
         // a JSON response.
-        return response()->json(['error' => $error], $code);
+        if (strpos($request->path(), 'api/') !== false) {
+            return response()->json(['error' => $error], $code);
+        }
 
         return parent::render($request, $exception);
     }
