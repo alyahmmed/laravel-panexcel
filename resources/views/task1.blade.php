@@ -128,7 +128,7 @@
 
   <script data-require="jquery@*" data-semver="2.0.3" src="//code.jquery.com/jquery-2.0.3.min.js"></script>
   <script data-require="bootstrap@3.1.1" data-semver="3.1.1" src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="/js/posts.js'}}"></script>
+  <script type="text/javascript" src="/js/posts.js"></script>
   
   <script type="text/javascript">get_posts(1);</script>
 
