@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Http\Request;
+
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/', function () {
         return view('welcome');
@@ -18,6 +20,26 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('task1', function () {
         return view('task1');
+    });
+
+    Route::get('task2', function () {
+        return view('task2');
+    });
+    Route::post('task2', function (Request $request) {
+        $type = $request->get('type');
+        $request->request->remove('_token');
+        $request->request->remove('type');
+
+        if ($type == 'json') {
+            return ($request->all());
+        } else {
+            $data = $request->all();
+            $content = view('export', $data);
+
+            return response($content, 200)
+                ->header('Content-Type', 'text/xml');
+        }
+        return '';
     });
 });
 
