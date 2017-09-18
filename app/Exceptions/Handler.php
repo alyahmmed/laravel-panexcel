@@ -44,7 +44,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        $error = 'Server error';
+        $error = 'Server error'; // $exception->getMessage();
         $code = 500;
 
         $kalss = explode('\\', get_class($exception));

@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('task1', function () {
+    return view('task1');
+});
+
 
 // DB migration route
 Route::get('_db_migrate', function()
